@@ -8,6 +8,8 @@ bot = Bot(token=config.Token)
 dp = Dispatcher(bot)
 logging.basicConfig(level=logging.INFO)
 
+if not config.Token:
+    exit("Error: no token provided")
 
 @dp.message_handler(commands="start")
 async def cmd_test1(message: types.Message):
