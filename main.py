@@ -51,7 +51,20 @@ async def handbook(message: types.Message):
 
 
 
+# Return to main menu
+@Dispatcher_bot.message_handler(lambda message: message.text == "Back to Menu")
+async def back_menu(messege: types.Message):
 
+    buttons = ["Handbook",
+               "Create Hero",
+               "Generate Loot",
+               "Generate Mobs",
+               "Music"]
+
+    keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    keyboard.add(*buttons)
+
+    await message.answer('<b>Whoo</b>', reply_markup=keyboard)
 
 
 # @dp.message_handler(commands="dice")
