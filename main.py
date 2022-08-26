@@ -322,7 +322,6 @@ async def send_file(message: types.Document):
     get_name_list = name_of_hero_list[:-4].replace('-', ' ').replace('lss', '').replace('male', '').capitalize()
     await message.answer(f'Your warrior today will be <b>{get_name_list}</b>')
 
-
 # ----------------
 
 if __name__ == "__main__":
