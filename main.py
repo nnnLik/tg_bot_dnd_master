@@ -53,7 +53,7 @@ async def handbook(message: types.Message):
 
 # Return to main menu
 @Dispatcher_bot.message_handler(lambda message: message.text == "Back to Menu")
-async def back_menu(messege: types.Message):
+async def back_menu(message: types.Message):
 
     buttons = ["Handbook",
                "Create Hero",
