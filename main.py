@@ -71,6 +71,5 @@ async def back_menu(message: types.Message):
 # async def cmd_dice(message: types.Message):
 #     await message.answer_dice(emoji="🎲")
 
-
 if __name__ == "__main__":
     executor.start_polling(Dispatcher_bot, skip_updates=True)
