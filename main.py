@@ -39,9 +39,11 @@ async def cmd_test1(message: types.Message):
 
 
 
-@dp.message_handler(commands="dice")
-async def cmd_dice(message: types.Message):
-    await message.answer_dice(emoji="🎲")
+
+
+# @dp.message_handler(commands="dice")
+# async def cmd_dice(message: types.Message):
+#     await message.answer_dice(emoji="🎲")
 
 if __name__ == "__main__":
     executor.start_polling(dp, skip_updates=True)
