@@ -343,8 +343,3 @@ async def add_inf(call: types.CallbackQuery):
 
 async def start(message: types.Message):
     await bot.send_message(message.from_user.id, f"Привет, {message.from_user.full_name}")
-
-# ----------------
-
-if __name__ == "__main__":
-    executor.start_polling(Dispatcher_bot, skip_updates=True)
