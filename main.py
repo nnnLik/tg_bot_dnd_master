@@ -9,6 +9,7 @@ from sys import exit
 import logging
 import config
 import os
+import json
 
 # Bot object
 Bot = Bot(token=config.Token, parse_mode=types.ParseMode.HTML)
@@ -22,6 +23,10 @@ Greating = '''
 Hi
 '''
 
+dataset = []
+def log(*logs):
+    dataset.append(logs)
+    print(dataset)
 # Main menu
 @Dispatcher_bot.message_handler(commands="start")
 async def main_menu(message: types.Message):
@@ -36,6 +41,15 @@ async def main_menu(message: types.Message):
     keyboard.add(*buttons)
 
     await message.answer(Greating, reply_markup=keyboard)
+
+    log(message.from_user.id, message.from_user.full_name, commands)
+
+    # with open('log.json', mode='a') as log_file:
+    #     json.dump({
+    #     'name' : message.from_user.full_name,
+    #     'id' : message.from_user.id
+    #     },
+    #     log_file)
 
 # HandBook
 @Dispatcher_bot.message_handler(lambda message: message.text == "Handbook")
@@ -324,6 +338,10 @@ async def back_menu(message: types.Message):
 @Dispatcher_bot.callback_query_handler(text="alpha_test")
 async def add_inf(call: types.CallbackQuery):
     await call.message.answer('This feature is being developed. Everything will be ready soon')
+
+
+async def start(message: types.Message):
+    await bot.send_message(message.from_user.id, f"Привет, {message.from_user.full_name}")
 
 # ----------------
 
