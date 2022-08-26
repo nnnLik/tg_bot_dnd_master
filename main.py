@@ -69,13 +69,18 @@ async def handbook(message: types.Message):
     await message.answer("Here you can find all the <b>basic information</b>, which has been divided into parts for your convenience.",
                          reply_markup=keyboard)
 
+    log(id=message.from_user.id, name=message.from_user.full_name, text=message.text)
+
 # Create Hero
 @Dispatcher_bot.message_handler(lambda message: message.text == "Create Hero")
 async def send_file(message: types.Document):
+
     name_of_hero_list = choice(os.listdir(config.dir_hero_lists))
     await message.reply_document(open(config.dir_hero_lists + name_of_hero_list, 'rb'))
     get_name_list = name_of_hero_list[:-4].replace('-', ' ').replace('lss', '').replace('male', '').capitalize()
     await message.answer(f'Your warrior today will be <b>{get_name_list}</b>')
+
+    log(id=message.from_user.id, name=message.from_user.full_name, text=message.text)
 
 # HandBook -> Movement/Action
 @Dispatcher_bot.message_handler(lambda message: message.text == "Movement/Action")
@@ -93,6 +98,8 @@ async def handbook_mov_act(message: types.Message):
 
     await message.answer("Choose the option that interests you",
                          reply_markup=keyboard)
+
+    log(id=message.from_user.id, name=message.from_user.full_name, text=message.text)
 
 
 # HandBook -> Movement/Action -> Movement
@@ -165,6 +172,8 @@ async def handbook_movement(message: types.Message):
 
     ''', reply_markup=get_inline_keyboard_for_movement())
     await message.answer('❓', reply_markup=keyboard)
+
+    log(id=message.from_user.id, name=message.from_user.full_name, text=message.text)
 
 
 # HandBook -> Movement/Action -> Action
@@ -258,6 +267,7 @@ async def handbook_action(message: types.Message):
     ''', reply_markup=get_inline_keyboard_for_movement())
     await message.answer('❓', reply_markup=keyboard)
 
+    log(id=message.from_user.id, name=message.from_user.full_name, text=message.text)
 
 # HandBook -> State
 @Dispatcher_bot.message_handler(lambda message: message.text == "State")
@@ -274,6 +284,8 @@ async def handbook_state(message: types.Message):
     await message.answer("Choose the option that interests you",
                          reply_markup=keyboard)
 
+    log(id=message.from_user.id, name=message.from_user.full_name, text=message.text)
+
 # HandBook -> Damage
 @Dispatcher_bot.message_handler(lambda message: message.text == "Damage")
 async def handbook_damage(message: types.Message):
@@ -287,6 +299,8 @@ async def handbook_damage(message: types.Message):
 
     await message.answer("Choose the option that interests you",
                          reply_markup=keyboard)
+
+    log(id=message.from_user.id, name=message.from_user.full_name, text=message.text)
 
 # HandBook -> Weapon
 @Dispatcher_bot.message_handler(lambda message: message.text == "Weapon")
@@ -302,6 +316,8 @@ async def handbook_weapon(message: types.Message):
 
     await message.answer("Choose the option that interests you",
                          reply_markup=keyboard)
+
+    log(id=message.from_user.id, name=message.from_user.full_name, text=message.text)
 
 # HandBook -> Other
 @Dispatcher_bot.message_handler(lambda message: message.text == "Other")
@@ -319,6 +335,8 @@ async def handbook_other(message: types.Message):
     await message.answer("Choose the option that interests you",
                          reply_markup=keyboard)
 
+    log(id=message.from_user.id, name=message.from_user.full_name, text=message.text)
+
 # Return to main menu
 @Dispatcher_bot.message_handler(lambda message: message.text == "Back to Menu")
 async def back_menu(message: types.Message):
@@ -334,16 +352,19 @@ async def back_menu(message: types.Message):
 
     await message.answer('<b>Whoo</b>', reply_markup=keyboard)
 
+    log(id=message.from_user.id, name=message.from_user.full_name, text=message.text)
 
 # Features that are currently under development
 @Dispatcher_bot.callback_query_handler(text="alpha_test")
 async def add_inf(call: types.CallbackQuery):
     await call.message.answer('This feature is being developed. Everything will be ready soon')
 
+    log(id=message.from_user.id, name=message.from_user.full_name, text=message.text)
 
 async def start(message: types.Message):
     await bot.send_message(message.from_user.id, f"Привет, {message.from_user.full_name}")
 
+    log(id=message.from_user.id, name=message.from_user.full_name, text=message.text)
 # ---------------------
 
 if __name__ == "__main__":
