@@ -67,7 +67,7 @@ async def handbook(message: types.Message):
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
     keyboard.add(*buttons)
 
-    await message.reply("Choose the option that interests you",
+    await message.answer("Choose the option that interests you",
                          reply_markup=keyboard)
 
 # HandBook -> State
@@ -82,7 +82,7 @@ async def handbook(message: types.Message):
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
     keyboard.add(*buttons)
 
-    await message.reply("Choose the option that interests you",
+    await message.answer("Choose the option that interests you",
                          reply_markup=keyboard)
 
 # HandBook -> Damage
@@ -96,7 +96,7 @@ async def handbook(message: types.Message):
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
     keyboard.add(*buttons)
 
-    await message.reply("Choose the option that interests you",
+    await message.answer("Choose the option that interests you",
                          reply_markup=keyboard)
 
 # HandBook -> Weapon
@@ -111,7 +111,7 @@ async def handbook(message: types.Message):
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
     keyboard.add(*buttons)
 
-    await message.reply("Choose the option that interests you",
+    await message.answer("Choose the option that interests you",
                          reply_markup=keyboard)
 
 # HandBook -> Other
@@ -127,7 +127,7 @@ async def handbook(message: types.Message):
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
     keyboard.add(*buttons)
 
-    await message.reply("Choose the option that interests you",
+    await message.answer("Choose the option that interests you",
                          reply_markup=keyboard)
 
 # Return to main menu
