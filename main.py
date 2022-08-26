@@ -316,7 +316,7 @@ async def add_inf(call: types.CallbackQuery):
 
 @Dispatcher_bot.message_handler(commands='file')
 async def send_file(message: types.Document):
-    await message.reply_document(open('hero_lists/dwarf-druid-male-lss.pdf', 'rb'))
+    await message.reply_document(open('hero_list/dwarf-druid-male-lss.pdf', 'rb'))
 
 
 # ----------------
