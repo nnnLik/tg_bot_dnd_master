@@ -37,7 +37,6 @@ async def main_menu(message: types.Message):
 
     await message.answer(Greating, reply_markup=keyboard)
 
-
 # HandBook
 @Dispatcher_bot.message_handler(lambda message: message.text == "Handbook")
 async def handbook(message: types.Message):
@@ -57,7 +56,7 @@ async def handbook(message: types.Message):
 
 # HandBook -> Movement/Action
 @Dispatcher_bot.message_handler(lambda message: message.text == "Movement/Action")
-async def handbook(message: types.Message):
+async def handbook_mov_act(message: types.Message):
 
     buttons = ["Movement",
                "Action",
@@ -74,7 +73,7 @@ async def handbook(message: types.Message):
 
 # HandBook -> State
 @Dispatcher_bot.message_handler(lambda message: message.text == "State")
-async def handbook(message: types.Message):
+async def handbook_state(message: types.Message):
 
     buttons = ["State",
                "Environment and Perception",
@@ -89,7 +88,7 @@ async def handbook(message: types.Message):
 
 # HandBook -> Damage
 @Dispatcher_bot.message_handler(lambda message: message.text == "Damage")
-async def handbook(message: types.Message):
+async def handbook_damage(message: types.Message):
 
     buttons = ["Damage and Attacks",
                "Spells",
@@ -103,7 +102,7 @@ async def handbook(message: types.Message):
 
 # HandBook -> Weapon
 @Dispatcher_bot.message_handler(lambda message: message.text == "Weapon")
-async def handbook(message: types.Message):
+async def handbook_weapon(message: types.Message):
 
     buttons = ["Weapons",
                "Equipment sets",
@@ -118,7 +117,7 @@ async def handbook(message: types.Message):
 
 # HandBook -> Other
 @Dispatcher_bot.message_handler(lambda message: message.text == "Other")
-async def handbook(message: types.Message):
+async def handbook_other(message: types.Message):
 
     buttons = ["Travel",
                "Multiclassing",
@@ -150,7 +149,7 @@ async def back_menu(message: types.Message):
 
 # HandBook -> Movement/Action -> Movement
 @Dispatcher_bot.message_handler(lambda message: message.text == "Movement")
-async def handbook(message: types.Message):
+async def handbook_movement(message: types.Message):
     def get_inline_keyboard_for_movement():
         # Generate Keyboard
         inline_buttons = [
@@ -221,7 +220,7 @@ async def handbook(message: types.Message):
 
 # HandBook -> Movement/Action -> Action
 @Dispatcher_bot.message_handler(lambda message: message.text == "Action")
-async def handbook(message: types.Message):
+async def handbook_action(message: types.Message):
     def get_inline_keyboard_for_movement():
         # Generate Keyboard
         inline_buttons = [
@@ -314,10 +313,13 @@ async def handbook(message: types.Message):
 async def add_inf(call: types.CallbackQuery):
     await message.answer('This feature is being developed. Everything will be ready soon')
 
-@Dispatcher_bot.message_handler(commands='file')
-async def send_file(message: types.Document):
-    await message.reply_document(open('hero_list/dwarf-druid-male-lss.pdf', 'rb'))
 
+# Create Hero
+@Dispatcher_bot.message_handler(lambda message: message.text == "Create Hero")
+async def send_file(message: types.Document):
+    name_of_hero_list = choice(os.listdir(config.dir_hero_lists))
+    await message.reply_document(open(config.dir_hero_lists + name_of_hero_list, 'rb'))
+    await message.answer('Your warrior today will be '+ name_of_hero_list[:-4].replace('-', ' ').replace('lss', '').replace('male', '').capitalize())
 
 # ----------------
 
