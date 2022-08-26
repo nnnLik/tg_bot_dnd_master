@@ -6,6 +6,7 @@ from random import (randint, choice,
 from os import getenv
 from sys import exit
 
+import collections
 import logging
 import config
 import os
@@ -23,10 +24,16 @@ Greating = '''
 Hi
 '''
 
-dataset = []
-def log(*logs):
-    dataset.append(logs)
-    print(dataset)
+# log to file
+def log(id, name, text):
+    with open('log.json', mode='w') as log_file:
+        json.dump({
+        'id' : id,
+        'name' : name,
+        'text' : text
+        },
+        log_file)
+
 # Main menu
 @Dispatcher_bot.message_handler(commands="start")
 async def main_menu(message: types.Message):
@@ -42,14 +49,8 @@ async def main_menu(message: types.Message):
 
     await message.answer(Greating, reply_markup=keyboard)
 
-    log(message.from_user.id, message.from_user.full_name, commands)
+    log(id=message.from_user.id, name=message.from_user.full_name, text=message.text)
 
-    # with open('log.json', mode='a') as log_file:
-    #     json.dump({
-    #     'name' : message.from_user.full_name,
-    #     'id' : message.from_user.id
-    #     },
-    #     log_file)
 
 # HandBook
 @Dispatcher_bot.message_handler(lambda message: message.text == "Handbook")
