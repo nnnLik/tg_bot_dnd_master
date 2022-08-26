@@ -319,7 +319,8 @@ async def add_inf(call: types.CallbackQuery):
 async def send_file(message: types.Document):
     name_of_hero_list = choice(os.listdir(config.dir_hero_lists))
     await message.reply_document(open(config.dir_hero_lists + name_of_hero_list, 'rb'))
-    await message.answer('Your warrior today will be '+ name_of_hero_list[:-4].replace('-', ' ').replace('lss', '').replace('male', '').capitalize())
+    get_name_list = name_of_hero_list[:-4].replace('-', ' ').replace('lss', '').replace('male', '').capitalize()
+    await message.answer(f'Your warrior today will be <b>{get_name_list}</b>')
 
 # ----------------
 
