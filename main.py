@@ -1,11 +1,14 @@
 from aiogram import (Bot, Dispatcher,
                      executor, types)
+from random import (randint, choice,
+                    )
 
 from os import getenv
 from sys import exit
 
 import logging
 import config
+import os
 
 # Bot object
 Bot = Bot(token=config.Token, parse_mode=types.ParseMode.HTML)
@@ -18,7 +21,6 @@ logging.basicConfig(level=logging.INFO)
 Greating = '''
 Hi
 '''
-
 
 # Main menu
 @Dispatcher_bot.message_handler(commands="start")
@@ -217,7 +219,7 @@ async def handbook(message: types.Message):
     ''', reply_markup=get_inline_keyboard_for_movement())
     await message.answer('❓', reply_markup=keyboard)
 
-
+# HandBook -> Movement/Action -> Action
 @Dispatcher_bot.message_handler(lambda message: message.text == "Action")
 async def handbook(message: types.Message):
     def get_inline_keyboard_for_movement():
@@ -311,6 +313,11 @@ async def handbook(message: types.Message):
 @Dispatcher_bot.callback_query_handler(text="alpha_test")
 async def add_inf(call: types.CallbackQuery):
     await message.answer('This feature is being developed. Everything will be ready soon')
+
+@Dispatcher_bot.message_handler(commands='file')
+async def send_file(message: types.Document):
+    await message.reply_document(open('hero_lists/dwarf-druid-male-lss.pdf', 'rb'))
+
 
 # ----------------
 
