@@ -26,7 +26,7 @@ Hi
 
 # log to file
 def log(id, name, text):
-    with open('log.json', mode='w') as log_file:
+    with open('logs/log.json', mode='w') as log_file:
         json.dump({
         'id' : id,
         'name' : name,
@@ -343,3 +343,9 @@ async def add_inf(call: types.CallbackQuery):
 
 async def start(message: types.Message):
     await bot.send_message(message.from_user.id, f"Привет, {message.from_user.full_name}")
+
+# ---------------------
+
+if __name__ == "__main__":
+    # Запуск бота
+    executor.start_polling(Dispatcher_bot, skip_updates=True)
