@@ -8,9 +8,9 @@ import logging
 import config
 
 # Bot object
-bot = Bot(token=config.Token, parse_mode=types.ParseMode.HTML)
+Bot = Bot(token=config.Token, parse_mode=types.ParseMode.HTML)
 
-dp = Dispatcher(bot)
+Dispatcher_bot = Dispatcher(Bot)
 logging.basicConfig(level=logging.INFO)
 
 
@@ -20,8 +20,8 @@ Hi
 '''
 
 
-@dp.message_handler(commands="start")
-async def cmd_test1(message: types.Message):
+@Dispatcher_bot.message_handler(commands="start")
+async def main_menu(message: types.Message):
 
     buttons = ["Handbook",
                "Create Hero",
@@ -34,7 +34,20 @@ async def cmd_test1(message: types.Message):
 
     await message.answer(Greating, reply_markup=keyboard)
 
+@Dispatcher_bot.message_handler(lambda message: message.text == "Handbook")
+async def handbook(message: types.Message):
 
+    buttons = ["Movement/Action",
+               "State",
+               "Damage",
+               "Weapon",
+               "Other",
+               "Back to Menu"]
+
+    keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    keyboard.add(*buttons)
+
+    await message.answer("Here you can find all the <b>basic information</b>, which has been divided into parts for your convenience.", reply_markup=keyboard)
 
 
 
@@ -46,4 +59,4 @@ async def cmd_test1(message: types.Message):
 #     await message.answer_dice(emoji="🎲")
 
 if __name__ == "__main__":
-    executor.start_polling(dp, skip_updates=True)
+    executor.start_polling(Dispatcher_bot, skip_updates=True)
