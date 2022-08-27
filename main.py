@@ -1,5 +1,11 @@
+from aiogram.dispatcher import FSMContext
+from aiogram.dispatcher.filters import Command
+from aiogram.dispatcher.filters.state import State, StatesGroup
+from aiogram.contrib.fsm_storage.memory import MemoryStorage
+
 from aiogram import (Bot, Dispatcher,
                      executor, types)
+
 from random import (randint, choice,
                     )
 
@@ -8,6 +14,7 @@ from sys import exit
 
 import collections
 import logging
+import string
 import config
 import os
 
@@ -17,11 +24,14 @@ Bot = Bot(token=config.Token, parse_mode=types.ParseMode.HTML)
 Dispatcher_bot = Dispatcher(Bot)
 logging.basicConfig(level=logging.INFO)
 
+class FSMInputName(StatesGroup):
+    name = State()
 
-#const var
+# var
 Greating = '''
 Hi
 '''
+storage = MemoryStorage()
 
 
 # Main menu
@@ -328,6 +338,11 @@ async def handbook_other(message: types.Message):
 
     config.log(id=message.from_user.id, name=message.from_user.full_name, text=message.text)
 
+async def throw_dice(faces=4):
+    await message.answer('1', reply_markup=keyboard)
+    for i in string.digits:
+        await message.edit_text(i)
+
 @Dispatcher_bot.message_handler(lambda message: message.text == "Dice")
 async def handbook_other(message: types.Message):
 
@@ -336,18 +351,22 @@ async def handbook_other(message: types.Message):
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
     keyboard.add(*buttons)
 
-    await message.answer('Enter a number that will reflect the number of faces of the <b><u>cube</u></b>\nThe number of faces can be from 2 to 100', reply_markup=keyboard)
-
-    try:
-        global mes
-        if message.text.isdigit() and int(message.text.isdigit()) <= 100:
-            print('200')
-        else :
-            await message.answer('Back to Menu')
-    except:
-        await message.answer('Write something again...')
+    await message.answer('Enter a number that will reflect the number of faces of the <b><u>cube</u></b>', reply_markup=keyboard)
+    await message.answer('The number of faces can be from 2 to 100', reply_markup=keyboard)
 
     config.log(id=message.from_user.id, name=message.from_user.full_name, text=message.text)
+
+    await FSMInputName.name.set()
+
+
+@Dispatcher_bot.message_handler(state=FSMInputName.name)
+async def state1(message: types.Message, state: FSMContext):
+    async with state.proxy() as data:
+        data['name'] = message.text
+
+    await message.answer(message.text)
+    await state.finish()
+
 
 # Return to main menu
 @Dispatcher_bot.message_handler(lambda message: message.text == "Back to Menu")
