@@ -357,14 +357,20 @@ async def handbook_other(message: types.Message):
 
     await FSMInputName.name.set()
 
+
 @Dispatcher_bot.message_handler(state=FSMInputName.name)
 async def state1(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['name'] = message.text
+    def throw(faces):
+        fin_dice_value = randint(0, faces)
+        return  fin_dice_value
 
     config.wr_faces(message.text)
     faces_of_dice = config.rd_faces()
-    await message.answer(faces_of_dice)
+
+    await message.answer(throw(faces_of_dice))
+
     await state.finish()
 
 
