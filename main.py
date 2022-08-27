@@ -48,7 +48,7 @@ async def main_menu(message: types.Message):
 async def handbook(message: types.Message):
 
     buttons = ["Movement/Action",
-               "State",
+               "Rest",
                "Damage",
                "Weapon",
                "Other",
@@ -261,7 +261,7 @@ async def handbook_action(message: types.Message):
     config.log(id=message.from_user.id, name=message.from_user.full_name, text=message.text)
 
 # HandBook -> State
-@Dispatcher_bot.message_handler(lambda message: message.text == "State")
+@Dispatcher_bot.message_handler(lambda message: message.text == "Rest")
 async def handbook_state(message: types.Message):
 
     buttons = ["State",
@@ -325,6 +325,18 @@ async def handbook_other(message: types.Message):
 
     await message.answer("Choose the option that interests you",
                          reply_markup=keyboard)
+
+    config.log(id=message.from_user.id, name=message.from_user.full_name, text=message.text)
+
+@Dispatcher_bot.message_handler(lambda message: message.text == "Dice")
+async def handbook_other(message: types.Message):
+
+    buttons = ["Back to Menu"]
+
+    keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    keyboard.add(*buttons)
+
+    await message.answer('Enter a number that will reflect the number of faces of the <b><u>cube</u></b>', reply_markup=keyboard)
 
     config.log(id=message.from_user.id, name=message.from_user.full_name, text=message.text)
 
