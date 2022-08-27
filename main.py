@@ -1,5 +1,11 @@
+from aiogram.dispatcher import FSMContext
+from aiogram.dispatcher.filters import Command
+from aiogram.dispatcher.filters.state import State, StatesGroup
+from aiogram.contrib.fsm_storage.memory import MemoryStorage
+
 from aiogram import (Bot, Dispatcher,
                      executor, types)
+
 from random import (randint, choice,
                     )
 
@@ -8,21 +14,24 @@ from sys import exit
 
 import collections
 import logging
+import string
 import config
 import os
 
 # Bot object
 Bot = Bot(token=config.Token, parse_mode=types.ParseMode.HTML)
 
-Dispatcher_bot = Dispatcher(Bot)
-logging.basicConfig(level=logging.INFO)
-
-
-#const var
+# var
 Greating = '''
 Hi
 '''
+storage = MemoryStorage()
 
+Dispatcher_bot = Dispatcher(Bot, storage=storage)
+logging.basicConfig(level=logging.INFO)
+
+class FSMInputName(StatesGroup):
+    name = State()
 
 # Main menu
 @Dispatcher_bot.message_handler(commands="start")
@@ -32,7 +41,8 @@ async def main_menu(message: types.Message):
                "Create Hero",
                "Generate Loot",
                "Generate Mobs",
-               "Music"]
+               "Music",
+               "Dice"]
 
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
     keyboard.add(*buttons)
@@ -47,7 +57,7 @@ async def main_menu(message: types.Message):
 async def handbook(message: types.Message):
 
     buttons = ["Movement/Action",
-               "State",
+               "Rest",
                "Damage",
                "Weapon",
                "Other",
@@ -260,7 +270,7 @@ async def handbook_action(message: types.Message):
     config.log(id=message.from_user.id, name=message.from_user.full_name, text=message.text)
 
 # HandBook -> State
-@Dispatcher_bot.message_handler(lambda message: message.text == "State")
+@Dispatcher_bot.message_handler(lambda message: message.text == "Rest")
 async def handbook_state(message: types.Message):
 
     buttons = ["State",
@@ -327,6 +337,43 @@ async def handbook_other(message: types.Message):
 
     config.log(id=message.from_user.id, name=message.from_user.full_name, text=message.text)
 
+async def throw_dice(faces=4):
+    await message.answer('1', reply_markup=keyboard)
+    for i in string.digits:
+        await message.edit_text(i)
+
+@Dispatcher_bot.message_handler(lambda message: message.text == "Dice")
+async def handbook_other(message: types.Message):
+
+    buttons = ["Back to Menu"]
+
+    keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    keyboard.add(*buttons)
+
+    await message.answer('Enter a number that will reflect the number of faces of the <b><u>cube</u></b>', reply_markup=keyboard)
+    await message.answer('The number of faces can be from 2 to 100', reply_markup=keyboard)
+
+    config.log(id=message.from_user.id, name=message.from_user.full_name, text=message.text)
+
+    await FSMInputName.name.set()
+
+
+@Dispatcher_bot.message_handler(state=FSMInputName.name)
+async def state1(message: types.Message, state: FSMContext):
+    async with state.proxy() as data:
+        data['name'] = message.text
+    def throw(faces):
+        fin_dice_value = randint(0, faces)
+        return  fin_dice_value
+
+    config.wr_faces(message.text)
+    faces_of_dice = config.rd_faces()
+
+    await message.answer(throw(faces_of_dice))
+
+    await state.finish()
+
+
 # Return to main menu
 @Dispatcher_bot.message_handler(lambda message: message.text == "Back to Menu")
 async def back_menu(message: types.Message):
@@ -335,7 +382,8 @@ async def back_menu(message: types.Message):
                "Create Hero",
                "Generate Loot",
                "Generate Mobs",
-               "Music"]
+               "Music",
+               "Dice"]
 
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
     keyboard.add(*buttons)
