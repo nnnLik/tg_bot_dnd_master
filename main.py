@@ -336,7 +336,16 @@ async def handbook_other(message: types.Message):
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
     keyboard.add(*buttons)
 
-    await message.answer('Enter a number that will reflect the number of faces of the <b><u>cube</u></b>', reply_markup=keyboard)
+    await message.answer('Enter a number that will reflect the number of faces of the <b><u>cube</u></b>\nThe number of faces can be from 2 to 100', reply_markup=keyboard)
+
+    try:
+        global mes
+        if message.text.isdigit() and int(message.text.isdigit()) <= 100:
+            print('200')
+        else :
+            await message.answer('Back to Menu')
+    except:
+        await message.answer('Write something again...')
 
     config.log(id=message.from_user.id, name=message.from_user.full_name, text=message.text)
 
