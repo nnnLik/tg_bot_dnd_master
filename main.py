@@ -21,18 +21,17 @@ import os
 # Bot object
 Bot = Bot(token=config.Token, parse_mode=types.ParseMode.HTML)
 
-Dispatcher_bot = Dispatcher(Bot)
-logging.basicConfig(level=logging.INFO)
-
-class FSMInputName(StatesGroup):
-    name = State()
-
 # var
 Greating = '''
 Hi
 '''
 storage = MemoryStorage()
 
+Dispatcher_bot = Dispatcher(Bot, storage=storage)
+logging.basicConfig(level=logging.INFO)
+
+class FSMInputName(StatesGroup):
+    name = State()
 
 # Main menu
 @Dispatcher_bot.message_handler(commands="start")
