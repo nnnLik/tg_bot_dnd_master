@@ -32,7 +32,8 @@ async def main_menu(message: types.Message):
                "Create Hero",
                "Generate Loot",
                "Generate Mobs",
-               "Music"]
+               "Music",
+               "Dice"]
 
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
     keyboard.add(*buttons)
@@ -335,7 +336,8 @@ async def back_menu(message: types.Message):
                "Create Hero",
                "Generate Loot",
                "Generate Mobs",
-               "Music"]
+               "Music",
+               "Dice"]
 
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
     keyboard.add(*buttons)
