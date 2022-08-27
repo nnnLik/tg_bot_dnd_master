@@ -26,4 +26,4 @@ def wr_faces(fac_of_dice):
 def rd_faces():
     with open(faces, mode='r', encoding='utf-8') as fac:
         text = json.load(fac)
-        return text['faces']
+        return int(text['faces'])
