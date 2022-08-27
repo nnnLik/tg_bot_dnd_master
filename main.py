@@ -357,13 +357,13 @@ async def handbook_other(message: types.Message):
 
     await FSMInputName.name.set()
 
-
 @Dispatcher_bot.message_handler(state=FSMInputName.name)
 async def state1(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['name'] = message.text
 
-    await message.answer(message.text)
+    config.wr_faces(message.text)
+
     await state.finish()
 
 
