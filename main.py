@@ -363,7 +363,8 @@ async def state1(message: types.Message, state: FSMContext):
         data['name'] = message.text
 
     config.wr_faces(message.text)
-
+    faces_of_dice = config.rd_faces()
+    await message.answer(faces_of_dice)
     await state.finish()
 
 
