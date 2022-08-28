@@ -35,11 +35,6 @@ logging.basicConfig(level=logging.INFO)
 class FSMInputName(StatesGroup):
     name = State()
 
-# logs
-@Dispatcher_bot.message_handler(lambda message: message.text)
-async def logs(message: types.Message):
-    config.log(id=message.from_user.id, name=message.from_user.full_name, text=message.text)
-
 
 # Main menu
 @Dispatcher_bot.message_handler(commands="start")
@@ -56,7 +51,7 @@ async def main_menu(message: types.Message):
     keyboard.add(*buttons)
 
     await message.answer(Greating, reply_markup=keyboard)
-
+    config.log(id=message.from_user.id, name=message.from_user.full_name, text=message.text)
 
 # HandBook
 @Dispatcher_bot.message_handler(lambda message: message.text == "Handbook")
@@ -272,12 +267,25 @@ async def handbook_other(message: types.Message):
 
 
 @Dispatcher_bot.message_handler(state=FSMInputName.name)
-async def state1(message: types.Message, state: FSMContext):
+async def dice_state(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
-        data['name'] = message.text
+
+        if isinstance(message.text, int):
+            data['name'] = message.text
+        else:
+            data['name'] = False
+
     def throw(faces):
-        fin_dice_value = randint(0, faces)
-        return  fin_dice_value
+
+        if faces:
+
+            fin_dice_value = randint(1, faces)
+            return  fin_dice_value
+
+        # if text is (str) exception
+        else:
+            pass
+
 
     config.wr_faces(message.text)
     faces_of_dice = config.rd_faces()
@@ -285,7 +293,6 @@ async def state1(message: types.Message, state: FSMContext):
     await message.answer(throw(faces_of_dice))
 
     await state.finish()
-
 
 # Return to main menu
 @Dispatcher_bot.message_handler(lambda message: message.text == "Back to Menu")
