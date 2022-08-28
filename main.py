@@ -286,7 +286,6 @@ async def dice_state(message: types.Message, state: FSMContext):
         else:
             pass
 
-
     config.wr_faces(message.text)
     faces_of_dice = config.rd_faces()
 
