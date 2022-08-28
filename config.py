@@ -10,7 +10,7 @@ faces = 'logs/faces.json'
 
 # log to file
 def log(id, name, text):
-    with open(logs, mode='w') as log_file:
+    with open(logs, mode='w+') as log_file:
         json.dump({
         'id' : id,
         'name' : name,
