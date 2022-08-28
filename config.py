@@ -23,7 +23,11 @@ def wr_faces(fac_of_dice):
     with open(faces, mode='w') as fac:
         json.dump({'faces' : fac_of_dice}, fac)
 
+
 def rd_faces():
     with open(faces, mode='r', encoding='utf-8') as fac:
-        text = json.load(fac)
-        return int(text['faces'])
+        try:
+            text = json.load(fac)
+            return int(text['faces']) # <--------- to fix
+        except:
+            return False
